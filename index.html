@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#2B3FF0;--ink:#14152B;--muted:#62668A;--bg:#F3F5FA;--cta:#FF6A3D;--line:#D9DDEB;--err:#C62828;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "DM Sans",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,.big,#ptitle{font-family:"Bricolage Grotesque","DM Sans",sans-serif}
+.wrap{display:grid;grid-template-columns:minmax(300px,420px) 1fr;min-height:100vh}
+aside{position:sticky;top:0;height:100vh;background:var(--accent);color:#fff;padding:44px 40px;display:flex;flex-direction:column;overflow:hidden;animation:panel 1s var(--ease) both}
+aside::after{content:"";position:absolute;width:540px;height:540px;border-radius:50%;border:90px solid rgba(255,255,255,.07);right:-240px;bottom:-220px;pointer-events:none}
+aside>*{position:relative;z-index:1;animation:fade .7s .5s both}
+@keyframes panel{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+aside h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.01em}
+#tagline{margin:8px 0 0;color:rgba(255,255,255,.78);font-size:15px;max-width:290px}
+.big{margin-top:auto;font-size:clamp(120px,15vw,190px);line-height:.95;font-weight:800;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:2px #fff;overflow:hidden;padding-bottom:.06em}
+.big span{display:inline-block;animation:roll .7s var(--ease) both}
+@keyframes roll{from{transform:translateY(55%);opacity:0}to{transform:none;opacity:1}}
+#ptitle{font-size:23px;font-weight:700;margin:6px 0 28px}
+.steps{list-style:none;margin:0;padding:0 0 0 20px;position:relative;--p:0}
+.steps::before,.steps::after{content:"";position:absolute;left:4px;top:0;width:2px}
+.steps::before{bottom:0;background:rgba(255,255,255,.25)}
+.steps::after{height:calc(100% * var(--p));background:#fff;transition:height .7s var(--ease)}
+.steps li{position:relative;padding:5px 0;font-size:14px;color:rgba(255,255,255,.62);transition:color .3s}
+.steps li::before{content:"";position:absolute;left:-20px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--accent);border:2px solid rgba(255,255,255,.55);transition:all .35s var(--ease);z-index:1}
+.steps li.done::before{background:#fff;border-color:#fff}
+.steps li.now{color:#fff;font-weight:700}
+.steps li.now::before{background:var(--cta);border-color:var(--cta);transform:scale(1.4)}
+.bar{display:none;height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:18px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#fff;transition:width .5s var(--ease)}
+main{display:flex;align-items:center;justify-content:center;padding:56px 40px}
+form{width:100%;max-width:620px}
+form>*{animation:rise .65s var(--ease) both}
+form>:nth-child(2){animation-delay:.08s}form>:nth-child(3){animation-delay:.14s}form>:nth-child(4){animation-delay:.2s}
+form>:nth-child(5){animation-delay:.26s}form>:nth-child(6){animation-delay:.32s}form>:nth-child(7){animation-delay:.38s}form>:nth-child(n+8){animation-delay:.44s}
+@keyframes rise{from{opacity:0;transform:translate(var(--dx,0),14px)}to{opacity:1;transform:none}}
+h2{font-size:clamp(34px,4.6vw,54px);line-height:1.04;margin:0 0 10px;letter-spacing:-.03em;font-weight:800}
+h2:focus{outline:none}
+.sub{margin:0 0 36px;color:var(--muted);font-size:18px}
+.field{margin-bottom:28px}
+fieldset{border:0;padding:0;min-width:0}
+label.l,legend{display:block;font-weight:700;font-size:15px;margin-bottom:4px;padding:0}
+.req{color:var(--cta)}
+.hint{font-size:14px;color:var(--muted);margin:0 0 8px}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],select,textarea{width:100%;font:inherit;font-size:19px;color:inherit;padding:10px 0;border:0;border-bottom:2px solid var(--line);border-radius:0;background:linear-gradient(var(--accent),var(--accent)) no-repeat left bottom/0 2px;transition:background-size .45s var(--ease)}
+input:focus,select:focus,textarea:focus{outline:none;background-size:100% 2px}
+textarea{min-height:92px;resize:vertical}
+::placeholder{color:#A3A7C2}
+.opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.opt{position:relative;display:flex;gap:8px;align-items:center;padding:11px 18px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;background:#fff;user-select:none;transition:transform .25s var(--ease),border-color .2s,background .25s,color .25s}
+.opt:hover{transform:translateY(-2px);border-color:var(--accent)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt:has(input:checked){background:var(--accent);border-color:var(--accent);color:#fff;animation:pop .35s var(--ease)}
+.opt:has(input:checked)::before{content:"\2713";font-weight:700}
+.opt:has(input:focus-visible){outline:3px solid var(--cta);outline-offset:2px}
+@keyframes pop{50%{transform:scale(1.06)}}
+.err{color:var(--err);font-size:14px;margin-top:6px}
+.field.invalid{animation:shake .4s 0s}
+.invalid input,.invalid select,.invalid textarea{border-bottom-color:var(--err)}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:40px}
+button{font:inherit;font-weight:700;padding:15px 32px;border-radius:999px;border:0;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.primary{background:var(--cta);color:var(--ink);box-shadow:0 8px 24px -10px var(--cta)}
+.primary:hover{transform:translateY(-3px);box-shadow:0 14px 28px -10px var(--cta)}
+.primary:active{transform:scale(.97)}
+.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.drop{display:grid;place-items:center;gap:2px;text-align:center;padding:30px 20px;border:2px dashed var(--line);border-radius:18px;background:#fff;cursor:pointer;color:var(--muted);transition:border-color .25s,background .25s,transform .25s var(--ease)}
+.drop strong{color:var(--ink);font-size:18px}
+.drop:hover,.drop.over{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,#fff)}
+.drop.over{transform:scale(1.015)}
+.drop input{position:absolute;opacity:0;width:1px;height:1px}
+.drop:has(input:focus-visible){outline:3px solid var(--cta);outline-offset:2px}
+.flist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.flist li{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:12px;font-size:15px;animation:fade .4s var(--ease) both}
+.flist .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flist .z{color:var(--muted);font-size:13px}
+.flist button{padding:4px 12px;font-size:13px;background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+.flist button:hover{box-shadow:inset 0 0 0 1.5px var(--err);color:var(--err)}
+button:disabled{opacity:.6;cursor:progress;transform:none!important}
+.review section{border-top:1px solid var(--line);padding:18px 0}
+.review h3{margin:0 0 10px;font-size:19px;display:flex;justify-content:space-between;align-items:baseline}
+.review h3 a{font:500 14px "DM Sans",sans-serif;color:var(--accent);cursor:pointer;text-decoration:underline}
+.review dl{margin:0;display:grid;grid-template-columns:170px 1fr;gap:6px 16px;font-size:15px}
+.review dt{color:var(--muted)}.review dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.done-msg{display:flex;gap:14px;align-items:center;margin-top:26px;padding:18px 20px;border-radius:18px;background:#fff;box-shadow:0 14px 34px -14px rgba(20,21,43,.3);animation:rise .5s var(--ease) both}
+.tick{flex:none;width:40px;height:40px}.tick circle{fill:var(--accent)}
+.tick path{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .5s .3s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media(max-width:860px){
+.wrap{grid-template-columns:1fr}
+aside{position:relative;height:auto;padding:26px 22px 22px}
+.big{margin-top:14px;font-size:84px}#ptitle{margin:0}
+.steps{display:none}.bar{display:block}
+main{padding:34px 20px 60px}
+.review dl{grid-template-columns:1fr}.review dt{margin-top:6px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <div><h1 id="brand"></h1><p id="tagline"></p></div>
+    <div class="big" id="big" aria-hidden="true"></div>
+    <p id="ptitle"></p>
+    <ol class="steps" id="stepList"></ol>
+    <div class="bar"><i id="barFill"></i></div>
+  </aside>
+  <main><form id="form" novalidate></form></main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+/* ========== EDIT THIS BLOCK PER CLIENT ========== */
+const CONFIG = {
+  brand: "Your Studio Name",
+  tagline: "A few questions so we can start your website right.",
+  accent: "#2B3FF0",
+  steps: [
+    { title: "About you", intro: "Tell us who we’re working with.", fields: [
+      { id: "name", label: "Full name", type: "text", required: true },
+      { id: "email", label: "Email", type: "email", required: true },
+      { id: "phone", label: "Phone", type: "tel" },
+      { id: "company", label: "Business name", type: "text", required: true },
+      { id: "role", label: "Your role", type: "text" }
+    ]},
+    { title: "Your business", intro: "Help us understand what you do.", fields: [
+      { id: "industry", label: "Industry", type: "select", options: ["Retail / E-commerce", "Services", "Food & hospitality", "Health & wellness", "Education", "Creative / Portfolio", "Other"], required: true },
+      { id: "about", label: "What does your business do?", type: "textarea", required: true },
+      { id: "audience", label: "Who are your customers?", type: "textarea" },
+      { id: "oldsite", label: "Current website (if any)", type: "url", placeholder: "https://" }
+    ]},
+    { title: "Website goals", intro: "What should the site achieve?", fields: [
+      { id: "goals", label: "Main goals", type: "checkbox", hint: "Pick all that apply.", required: true, options: ["Get more leads", "Sell products online", "Take bookings", "Show our work", "Share information", "Build trust"] },
+      { id: "success", label: "How will you measure success?", type: "textarea" }
+    ]},
+    { title: "Design & content", intro: "Tell us how it should look and what it needs.", fields: [
+      { id: "style", label: "Preferred style", type: "radio", required: true, options: ["Clean & minimal", "Bold & colorful", "Elegant & classic", "Playful & friendly"] },
+      { id: "brandinfo", label: "Brand colors or logo notes", type: "textarea" },
+      { id: "inspo", label: "Websites you like", type: "textarea", hint: "Paste links and say what you like about them." },
+      { id: "features", label: "Features needed", type: "checkbox", options: ["Contact form", "Blog", "Online store", "Booking system", "Photo gallery", "Multiple languages"] },
+      { id: "content", label: "Is your content ready?", type: "radio", options: ["Yes, I have everything", "I have some of it", "I need help writing it"] },
+      { id: "files", label: "Attach your content", type: "file", hint: "Logos, photos, documents or a ZIP. Up to 25 MB per file, 100 MB in total." }
+    ]},
+    { title: "Timeline & budget", intro: "Last step before you review.", fields: [
+      { id: "launch", label: "Ideal launch date", type: "date" },
+      { id: "budget", label: "Budget range", type: "select", options: ["Under $500", "$500 – $1,500", "$1,500 – $5,000", "$5,000+", "Not sure yet"] },
+      { id: "notes", label: "Anything else we should know?", type: "textarea" }
+    ]}
+  ]
+};
+/* ================================================= */
+
+const form = document.getElementById("form");
+const steps = CONFIG.steps, total = steps.length;
+let cur = 0, last = 0, answers = {};
+const files = [], MAX_FILE = 25 * 1048576, MAX_ALL = 100 * 1048576;
+
+document.documentElement.style.setProperty("--accent", CONFIG.accent);
+document.getElementById("brand").textContent = CONFIG.brand;
+document.getElementById("tagline").textContent = CONFIG.tagline;
+document.title = CONFIG.brand + " – Project onboarding";
+
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const show = v => Array.isArray(v) ? v.join(", ") : (v || "");
+
+function fieldHTML(f) {
+  if (f.type === "file") return `<div class="field" data-f="${f.id}"><label class="l" for="fileInput">${esc(f.label)}</label>${f.hint ? `<p class="hint">${esc(f.hint)}</p>` : ""}<label class="drop"><input type="file" id="fileInput" multiple><strong>Drop files here</strong><span>or click to browse</span></label><ul class="flist" id="flist">${fileListHTML()}</ul><div class="err" role="alert"></div></div>`;
+  const v = answers[f.id], req = f.required ? ' <span class="req" aria-hidden="true">*</span>' : "";
+  const hint = f.hint ? `<p class="hint">${esc(f.hint)}</p>` : "";
+  let ctl;
+  if (f.type === "textarea") ctl = `<textarea id="${f.id}" name="${f.id}">${esc(v)}</textarea>`;
+  else if (f.type === "select") ctl = `<select id="${f.id}" name="${f.id}"><option value="">Choose one</option>${f.options.map(o => `<option${v === o ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+  else if (f.type === "radio" || f.type === "checkbox") {
+    const opts = f.options.map(o => {
+      const on = f.type === "radio" ? v === o : (v || []).includes(o);
+      return `<label class="opt"><input type="${f.type}" name="${f.id}" value="${esc(o)}"${on ? " checked" : ""}>${esc(o)}</label>`;
+    }).join("");
+    return `<fieldset class="field" data-f="${f.id}"><legend>${esc(f.label)}${req}</legend>${hint}<div class="opts">${opts}</div><div class="err" role="alert"></div></fieldset>`;
+  } else ctl = `<input type="${f.type}" id="${f.id}" name="${f.id}" value="${esc(v)}" placeholder="${esc(f.placeholder || "")}">`;
+  return `<div class="field" data-f="${f.id}"><label class="l" for="${f.id}">${esc(f.label)}${req}</label>${hint}${ctl}<div class="err" role="alert"></div></div>`;
+}
+
+function collect() {
+  if (cur >= total) return;
+  steps[cur].fields.forEach(f => {
+    if (f.type === "file") return;
+    const els = [...form.querySelectorAll(`[name="${f.id}"]`)];
+    if (f.type === "checkbox") answers[f.id] = els.filter(e => e.checked).map(e => e.value);
+    else if (f.type === "radio") answers[f.id] = (els.find(e => e.checked) || {}).value || "";
+    else answers[f.id] = (els[0].value || "").trim();
+  });
+}
+
+function validate() {
+  let ok = true, first = null;
+  steps[cur].fields.forEach(f => {
+    if (f.type === "file") return;
+    const box = form.querySelector(`[data-f="${f.id}"]`), v = answers[f.id];
+    let msg = "";
+    if (f.required && (!v || !v.length)) msg = "This field is required.";
+    else if (f.type === "email" && v && !/^\S+@\S+\.\S+$/.test(v)) msg = "Enter a valid email address.";
+    else if (f.type === "url" && v && !/^https?:\/\/\S+\.\S+/.test(v)) msg = "Enter a full link, starting with https://";
+    box.classList.toggle("invalid", !!msg);
+    box.querySelector(".err").textContent = msg;
+    if (msg) { ok = false; first = first || box; }
+  });
+  if (first) (first.querySelector("input,select,textarea") || first).focus();
+  return ok;
+}
+
+function renderNav() {
+  const list = document.getElementById("stepList");
+  list.innerHTML = steps.map((s, i) =>
+    `<li class="${i < cur ? "done" : i === cur ? "now" : ""}">${esc(s.title)}</li>`).join("") +
+    `<li class="${cur === total ? "now" : ""}">Review & download</li>`;
+  list.style.setProperty("--p", (cur + .5) / (total + 1));
+  document.getElementById("barFill").style.width = (cur / total * 100) + "%";
+  const big = document.getElementById("big"), n = String(cur + 1).padStart(2, "0");
+  if (big.dataset.n !== n) { big.dataset.n = n; big.innerHTML = `<span>${n}</span>`; }
+  document.getElementById("ptitle").textContent = cur < total ? steps[cur].title : "Review & download";
+}
+
+function render() {
+  renderNav();
+  /* setAttribute, not form.style: a field named "style" would shadow form.style */
+  form.setAttribute("style", "--dx:" + (cur >= last ? "32px" : "-32px")); last = cur;
+  if (cur < total) {
+    const s = steps[cur];
+    form.innerHTML = `<h2>${esc(s.title)}</h2><p class="sub">${esc(s.intro || "")}</p>${s.fields.map(fieldHTML).join("")}
+      <div class="nav">${cur ? '<button type="button" class="ghost" data-act="back">Back</button>' : "<span></span>"}
+      <button type="button" class="primary" data-act="next">${cur === total - 1 ? "Review answers" : "Continue"}</button></div>`;
+  } else {
+    form.innerHTML = `<h2>Review your answers</h2><p class="sub">Check everything, then download your onboarding package. It is a ZIP with a PDF summary and your attached files.</p>
+      <div class="review">${steps.map((s, i) => `<section><h3>${esc(s.title)}<a data-edit="${i}" role="button" tabindex="0">Edit</a></h3><dl>${
+        s.fields.map(f => `<dt>${esc(f.label)}</dt><dd>${esc(val(f) || "—")}</dd>`).join("")}</dl></section>`).join("")}</div>
+      <div class="nav"><button type="button" class="ghost" data-act="back">Back</button>
+      <button type="button" class="primary" data-act="pdf">Download ZIP</button></div>
+      <div id="doneMsg"></div>`;
+  }
+  window.scrollTo({ top: 0 });
+  const h = form.querySelector("h2"); h.tabIndex = -1; h.focus({ preventScroll: true });
+}
+
+form.addEventListener("click", e => {
+  const edit = e.target.closest("[data-edit]");
+  if (edit) { cur = +edit.dataset.edit; return render(); }
+  const rm = e.target.closest("[data-rm]");
+  if (rm) { files.splice(+rm.dataset.rm, 1); drawFiles(); return; }
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (!act) return;
+  if (act === "back") { collect(); cur--; render(); }
+  if (act === "next") { collect(); if (validate()) { cur++; render(); } }
+  if (act === "pdf") makePDF().catch(() => {
+    const bt = form.querySelector("[data-act=pdf]"); if (bt) { bt.disabled = false; bt.textContent = "Download ZIP"; }
+    document.getElementById("doneMsg").innerHTML = '<div class="err" role="alert">Something went wrong while creating your files. Please try again.</div>';
+  });
+});
+form.addEventListener("keydown", e => {
+  if (e.key === "Enter" && e.target.matches("input:not([type=checkbox]):not([type=radio]):not([type=file])")) {
+    e.preventDefault(); form.querySelector('[data-act="next"]')?.click();
+  }
+  if (e.key === "Enter" && e.target.matches("[data-edit]")) e.target.click();
+});
+
+/* ---------- Attachments ---------- */
+const fmt = n => n < 1048576 ? Math.max(1, Math.round(n / 1024)) + " KB" : (n / 1048576).toFixed(1) + " MB";
+const val = f => f.type === "file" ? files.map(x => `${x.name} (${fmt(x.size)})`).join("\n") : show(answers[f.id]);
+function fileListHTML() {
+  return files.map((x, i) => `<li><span class="n">${esc(x.name)}</span><span class="z">${fmt(x.size)}</span><button type="button" data-rm="${i}" aria-label="Remove ${esc(x.name)}">Remove</button></li>`).join("");
+}
+function drawFiles(msg) {
+  const l = document.getElementById("flist"); if (l) l.innerHTML = fileListHTML();
+  const e = form.querySelector('[data-f="files"] .err'); if (e) e.textContent = msg || "";
+}
+function addFiles(list) {
+  let msg = "", total = files.reduce((a, x) => a + x.size, 0);
+  [...list].forEach(x => {
+    if (files.some(y => y.name === x.name && y.size === x.size && y.lastModified === x.lastModified)) return;
+    if (x.size > MAX_FILE) { msg = `${x.name} is larger than ${fmt(MAX_FILE)}. Send it separately or compress it.`; return; }
+    if (total + x.size > MAX_ALL) { msg = `Total size is limited to ${fmt(MAX_ALL)}. ${x.name} was not added.`; return; }
+    files.push(x); total += x.size;
+  });
+  drawFiles(msg);
+}
+form.addEventListener("change", e => { if (e.target.id === "fileInput") { addFiles(e.target.files); e.target.value = ""; } });
+form.addEventListener("dragover", e => { const d = e.target.closest(".drop"); if (d) { e.preventDefault(); d.classList.add("over"); } });
+form.addEventListener("dragleave", e => e.target.closest(".drop")?.classList.remove("over"));
+form.addEventListener("drop", e => { const d = e.target.closest(".drop"); if (d) { e.preventDefault(); d.classList.remove("over"); addFiles(e.dataTransfer.files); } });
+["dragover", "drop"].forEach(n => window.addEventListener(n, e => { if (!e.target.closest?.(".drop")) e.preventDefault(); }));
+
+/* ---------- PDF + ZIP ---------- */
+const clean = s => String(s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, "-").replace(/…/g, "...").replace(/[^\x09\x0A\x0D\x20-\x7E\u00A0-\u00FF]/g, "?");
+const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+
+async function makePDF() {
+  if (!window.jspdf || !window.JSZip) { alert("The PDF/ZIP libraries didn’t load. Check your internet connection and try again."); return; }
+  const btn = form.querySelector("[data-act=pdf]"); btn.disabled = true; btn.textContent = "Preparing ZIP…";
+  const doc = new window.jspdf.jsPDF({ unit: "pt", format: "a4" });
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 48, CW = W - M * 2;
+  const [r, g, b] = rgb(CONFIG.accent);
+  const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  let y = 134;
+  const need = h => { if (y + h > H - 56) { doc.addPage(); y = 60; } };
+
+  doc.setFillColor(r, g, b); doc.rect(0, 0, W, 96, "F");
+  doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(22);
+  doc.text(clean(CONFIG.brand), M, 48);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+  doc.text("Project onboarding summary", M, 68); doc.text(date, W - M, 68, { align: "right" });
+
+  doc.setTextColor(22, 33, 58); doc.setFontSize(12); doc.setFont("helvetica", "bold");
+  doc.text(clean(`${answers.name || "Client"}${answers.company ? " - " + answers.company : ""}`), M, y); y += 34;
+
+  steps.forEach(s => {
+    need(60);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(r, g, b);
+    doc.text(clean(s.title), M, y); y += 7;
+    doc.setDrawColor(r, g, b); doc.setLineWidth(1.2); doc.line(M, y, M + CW, y); y += 22;
+    s.fields.forEach(f => {
+      const answerText = clean(val(f) || "-");
+      doc.setFontSize(11); doc.setFont("helvetica", "normal");
+      const lines = doc.splitTextToSize(answerText, CW);
+      const label = doc.splitTextToSize(clean(f.label), CW);
+      need(label.length * 11 + lines.length * 15 + 14);
+      doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.setTextColor(91, 103, 129);
+      doc.text(label, M, y); y += label.length * 11 + 3;
+      doc.setFont("helvetica", "normal"); doc.setFontSize(11); doc.setTextColor(22, 33, 58);
+      doc.text(lines, M, y, { lineHeightFactor: 1.3 }); y += lines.length * 15 + 11;
+    });
+    y += 12;
+  });
+
+  const n = doc.getNumberOfPages();
+  for (let i = 1; i <= n; i++) {
+    doc.setPage(i); doc.setFontSize(9); doc.setTextColor(140, 148, 165);
+    doc.text(clean(CONFIG.brand), M, H - 28); doc.text(`Page ${i} of ${n}`, W - M, H - 28, { align: "right" });
+  }
+  const slug = clean(answers.company || answers.name || "client").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "client";
+  const msgBox = document.getElementById("doneMsg");
+  try {
+    const zip = new JSZip();
+    zip.file("onboarding-summary.pdf", doc.output("blob"));
+    zip.file("answers.json", JSON.stringify({ ...answers, attachments: files.map(x => x.name) }, null, 2));
+    if (files.length) {
+      const dir = zip.folder("attachments"), used = new Set();
+      files.forEach(x => {
+        const i = x.name.lastIndexOf("."), base = i > 0 ? x.name.slice(0, i) : x.name, ext = i > 0 ? x.name.slice(i) : "";
+        let n = x.name, k = 1; while (used.has(n)) n = `${base} (${++k})${ext}`;
+        used.add(n); dir.file(n, x);
+      });
+    }
+    const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = `onboarding-${slug}.zip`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    msgBox.innerHTML = '<div class="done-msg" role="status"><svg class="tick" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20"/><path d="M11 21l6 6 12-13"/></svg><span>Your ZIP has been downloaded. Send it to us and we’ll take it from here.</span></div>';
+  } catch (err) {
+    msgBox.innerHTML = '<div class="err" role="alert">Something went wrong while creating the ZIP. Try again, or remove very large files.</div>';
+  }
+  btn.disabled = false; btn.textContent = "Download ZIP";
+}
+
+render();
+</script>
+</body>
+</html>
